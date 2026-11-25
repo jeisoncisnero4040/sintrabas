@@ -170,7 +170,7 @@ function store(database, { parcels, layers, units, reference }) {
       DELETE FROM opt_predios;
       DELETE FROM opt_unidades;
       DELETE FROM opt_direcciones_referencia;
-      DELETE FROM opt_fuentes;
+      DELETE FROM opt_fuentes WHERE codigo <> 'direcciones_catastro_amb';
     `);
     const source = database.prepare('INSERT INTO opt_fuentes (codigo, nombre, url, importado_en, total) VALUES (?, ?, ?, ?, ?)');
     const parcel = database.prepare(`

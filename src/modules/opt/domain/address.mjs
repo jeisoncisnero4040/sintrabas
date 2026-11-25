@@ -19,11 +19,13 @@ const suffixes = {
 const number = token => /^\d+[A-Z]{0,4}$/u.test(token ?? '');
 const suffix = token => suffixes[token] || (/^[A-Z]$/u.test(token ?? '') ? token : '');
 const withoutLeadingZeros = value => value.replace(/^0+(?=\d)/u, '');
+const complement = /\s+(?:AP|APTO|APARTAMENTO|BR|BARRIO|ED|EDIFICIO|INT|INTERIOR|TORRE|OF|OFICINA|LOC|LOCAL|PISO|CASA|BLOQUE|BLQ|CONJ|CONJUNTO)(?:\s|$)/u;
 
 export function parseOptAddress(input) {
   const tokens = input.toUpperCase().normalize('NFD').replace(/\p{M}/gu, '')
     .replace(/[^0-9A-Z ]/gu, ' ').replace(/^([A-Z]+)(?=\d)/u, '$1 ')
-    .trim().split(/\s+/u).filter(token => token && !['NO', 'NRO', 'NUM', 'NUMERO'].includes(token));
+    .replace(/\s+/gu, ' ').trim().split(complement, 1)[0].split(' ')
+    .filter(token => token && !['NO', 'NRO', 'NUM', 'NUMERO'].includes(token));
   const street = streetCodes[tokens.shift()];
   if (!street) return null;
 
@@ -56,4 +58,10 @@ export function formatOptAddress(route, cross, plate) {
   if (!parts) return route + ' # ' + cross + '-' + plate;
   const title = parts[2]?.toLowerCase().replace(/\b\p{L}/gu, char => char.toUpperCase()) ?? parts[3];
   return streetNames[parts[1]] + ' ' + title + ' # ' + cross + ' - ' + plate;
+}
+
+export function cadastralCodeVariants(code) {
+  if (code.length === 15) return [code, '68001' + code];
+  if (code.length === 20 && code.startsWith('68001')) return [code, code.slice(5)];
+  return [code];
 }

@@ -33,3 +33,8 @@ export const referenceSource = {
   id: 'referencia_old', name: 'Índice de direcciones del prototipo a partir del visor POT',
   url: potSource.url,
 };
+
+export const cadastralSource = {
+  id: 'direcciones_catastro_amb', name: 'Área Metropolitana de Bucaramanga · Registros catastrales 1',
+  url: 'https://www.datos.gov.co/d/3qja-8idc',
+};

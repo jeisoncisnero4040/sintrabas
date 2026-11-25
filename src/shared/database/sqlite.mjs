@@ -7,8 +7,10 @@ import { externalIdentities } from './migrations/002-identidades-externas.mjs';
 import { workspaces } from './migrations/003-espacios-de-trabajo.mjs';
 import { optBucaramanga } from './migrations/004-opt-bucaramanga.mjs';
 import { simulatedDomains } from './migrations/005-dominios-simulados.mjs';
+import { cadastralAddresses } from './migrations/006-direcciones-catastrales.mjs';
+import { allyApplications } from './migrations/007-postulaciones-aliados.mjs';
 
-const migrations = [identityAndPrivacy, externalIdentities, workspaces, optBucaramanga, simulatedDomains];
+const migrations = [identityAndPrivacy, externalIdentities, workspaces, optBucaramanga, simulatedDomains, cadastralAddresses, allyApplications];
 const connectionKey = Symbol.for('sintrabas.sqlite.connection');
 const migrationKey = Symbol.for('sintrabas.sqlite.migration');
 const latestMigration = migrations.at(-1).id;
